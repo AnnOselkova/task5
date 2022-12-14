@@ -53,7 +53,7 @@ public class Main {
 
     }
 
-    /** Шифрует сообщение, где цифра символа зависит от разницы текущего символа и предыдущего*/
+    
     public static int[] encrypt(String word) {
         int[] e = new int[word.length()];
         e[0] = word.charAt(0); // записываем в массив индекс первого символа
@@ -65,7 +65,7 @@ public class Main {
         return e;
     }
 
-    /** Функция дешифрует сообщения, зашифрованные функцией encrypt*/
+   
     public static String decrypt(int[] e) {
         String d = "" + (char) e[0];
         int p = e[0];
@@ -76,7 +76,7 @@ public class Main {
         return d;
     }
 
-    /** Шахматы, много шахмат */
+    
     public static boolean canMove(String figure, String start, String end) {
         int startRow = start.charAt(0) - 'A';
         int startCol = start.charAt(1) - '1';
@@ -102,7 +102,7 @@ public class Main {
         }
     }
 
-    /** Функция проверяет все ли символы строки subword последовательно находятся в строке word*/
+    
     public static boolean canComplete(String subword, String word) {
         int s = 0;
         for (int i = 0; i < subword.length(); i++) {
@@ -113,7 +113,7 @@ public class Main {
         return true;
     }
 
-    /** Функция перемножает цифры суммы всех чисел до тех пор, пока не получится однозначное число */
+    
     public static int sumDigProd(int... n) { // можем принимать на входе неограничеснное количество int переменных
         int sum = 0;
         for (int i = 0; i < n.length; i++) {
@@ -130,34 +130,34 @@ public class Main {
         return sum;
     }
 
-    /** Вспомогательная функция, считает уникальное численное значение на основе уникальных гласных в строке */
+    // Вспомогательная функция
     public static int countVowels(String word) {
         final String v = "aeiouy";
-        String a = "";
+        StringBuilder a = new StringBuilder (); // находит символ в строке и проверяет на уникальность гласных в слове
         int sum = 0;
         for (char lit : word.toLowerCase().toCharArray()) {
-            if (v.indexOf(lit) != -1 && !a.contains(lit + "")) {
+            if (v.indexOf(lit) != -1 && a.indexOf(lit + "")==-1) { // если гласная и если нет в уникальных 
                 sum += lit;
-                a += lit;
+                a.append(lit); // записываем уникальные гласные
             }
         }
         return sum;
     }
 
-    /** Функция выбирает все слова с одинаковым набором гласных */
+    
     public static String[] sameVowelGroup(String[] words) {
         String[] result = new String[words.length];
-        int resultIdx = 0;
+        int n = 0;
         int baseVowels = countVowels(words[0]);
         for (int i = 0; i < words.length; i++) {
             if (baseVowels == countVowels(words[i])) {
-                result[resultIdx++] = words[i];
+                result[n++] = words[i];
             }
         }
-        return Arrays.copyOf(result, resultIdx);
+        return Arrays.copyOf(result, n);
     }
 
-    /** Функция для валидации банковских карт */
+    
     public static boolean validateCard(long number) {
         String num = number + ""; //делаем из числа строку
         if (num.length() < 14 || num.length() > 19) return false;
@@ -174,7 +174,7 @@ public class Main {
         return (10 - sum % 10) == last;
     }
 
-    /** Функция для преобразования числа в его строковое представление на английском языке */
+    
     public static String numToEng(int number) {
         String[] digits = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
         String[] teens = {"ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
@@ -199,7 +199,7 @@ public class Main {
         return answer.toString();
     }
 
-    /** Функция для преобразования числа в его строковое представление на русском языке */
+    // На русском языке 
     public static String numToRus(int number) {
         String[] digits = {"ноль", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"};
         String[] teens = {"десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"};
@@ -224,7 +224,7 @@ public class Main {
         return answer.toString();
     }
 
-    /** Функция для получения зашифрованной строки на основе входной при помощи SHA-2 256 */
+    
     public static String getSha256Hash(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -240,7 +240,7 @@ public class Main {
         return null;
     }
 
-    /** Функция исправляет размеры слов за исключением the, of, in, and */
+    
     public static String correctTitle(String input){
         String[] words = input.split(" "); // делим строку на слова и слова записываем в массив
         List<String> s = Arrays.stream(new String[]{"the", "of", "in", "and"}).toList();
@@ -256,48 +256,48 @@ public class Main {
         return String.join(" ", words);// соединение строк
     }
 
-    /** Функция для получения строки с центрированным шестиугольным числом, если это возможно */
+    
     public static String hexLattice(int n){
         if(n == 1)return " o ";
         int num = 1;
-        int counter = 0;
-        while(num < n){
-            num = 3 * counter * (counter - 1) + 1;
-            counter++;
+        int count = 0; // размер стороны решетки
+        while(num != n){
+            num = 3 * count * (count - 1) + 1;
+            count++;
         }
         if(num != n)return "Invalid";
-        StringBuilder answer = new StringBuilder();
-        int side  = counter - 1;
-        int mid = side * 2 + 1;
-        for(int i = 0; i < counter - 1; i++){
+        StringBuilder a = new StringBuilder();
+        int side  = count - 1; //сторона
+        int mid = side * 2 + 1; // середина решетки
+        for(int i = 0; i < count - 1; i++){ // определяем количество пробелов от начала строки до о
             for(int j = 0; j < mid - side - 2; j++){
-                answer.append(" ");
+                a.append(" ");
             }
-            for(int k = 0; k < side; k++){
-                if(k == 0)answer.append("o");
-                else answer.append(" o");
+            for(int d = 0; d < side; d++){ // выводим первый символ в строке
+                if(d == 0)answer.append("o");
+                else a.append(" o");
                 }
             for(int j = 0; j < (mid - side - 2); j++){
-                answer.append(" ");
+                a.append(" ");
             }
-            answer.append("\n");
+            a.append("\n");
             side++;
         }
-        side -= 2;
+        side = side - 2;
         for(int i = 0; i < counter - 2; i++){
             for(int j = 0; j < (mid - side - 2); j++){
-                answer.append(" ");
+                a.append(" ");
             }
             for(int k = 0; k < side; k++){
                 if(k == 0)answer.append("o");
-                else answer.append(" o");
+                else a.append(" o");
             }
             for(int j = 0; j < (mid - side - 2); j++){
-                answer.append(" ");
+                a.append(" ");
             }
-            answer.append("\n");
+            a.append("\n");
             side--;
         }
-        return answer.toString().trim();
+        return a.toString().trim();
     }
 }
